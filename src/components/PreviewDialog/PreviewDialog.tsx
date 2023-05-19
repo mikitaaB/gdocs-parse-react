@@ -1,8 +1,12 @@
 import { memo } from "react";
+import DOMPurify from "dompurify";
 import { PreviewDialogPropsType } from "../../types";
 
 export const PreviewDialog = memo((props: PreviewDialogPropsType) => {
 	const { isOpenPreviewDialog, handleCloseDialog, content } = props;
+	const sanitizedContent = DOMPurify.sanitize(content, {
+		FORCE_BODY: true,
+	});
 
 	return (
 		<div
@@ -40,7 +44,9 @@ export const PreviewDialog = memo((props: PreviewDialogPropsType) => {
 					>
 						{content && (
 							<div
-								dangerouslySetInnerHTML={{ __html: content }}
+								dangerouslySetInnerHTML={{
+									__html: sanitizedContent,
+								}}
 							/>
 						)}
 					</div>
