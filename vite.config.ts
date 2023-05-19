@@ -3,6 +3,9 @@ import react from "@vitejs/plugin-react";
 import eslint from "vite-plugin-eslint";
 
 // https://vitejs.dev/config/
-export default defineConfig({
-	plugins: [react(), eslint()],
+export default defineConfig(({ mode }) => {
+	return {
+		base: mode === "production" ? "/gdocs-parse-react/" : "/",
+		plugins: [react(), eslint()],
+	};
 });

@@ -1,5 +1,6 @@
 {
   "name": "gdocs-parse",
+  "homepage": "https://mikitaab.github.io/gdocs-parse-react",
   "private": true,
   "version": "0.0.1",
   "type": "module",
