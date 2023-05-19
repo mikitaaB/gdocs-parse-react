@@ -6,7 +6,9 @@ export const PreviewDialog = memo((props: PreviewDialogPropsType) => {
 
 	return (
 		<div
-			className={`modal fade ${isOpenPreviewDialog ? "show" : ""}`}
+			className={`modal modal-xl fade ${
+				isOpenPreviewDialog ? "show" : ""
+			}`}
 			style={{ display: isOpenPreviewDialog ? "block" : "none" }}
 			id="previewDialog"
 			aria-labelledby="previewDialogLabel"
