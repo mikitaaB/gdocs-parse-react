@@ -42,11 +42,3 @@ export const fetchZipFromSheets = async (url: string) => {
 		throw error;
 	}
 };
-
-export const saveFileAs = (blob: Blob, fileName: string) => {
-	const a = window.document.createElement("a");
-	a.href = window.URL.createObjectURL(blob);
-	a.download = fileName;
-	a.click();
-	window.URL.revokeObjectURL(a.href);
-};

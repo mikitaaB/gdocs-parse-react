@@ -1,7 +1,7 @@
 # gdocs-parse-react
 
 The application finds variables in a pre-prepared document - Google Docs, finds the values of these variables in a table - Google Sheets and uploads the completed document to Word.
-In order to upload documents, you need to insert valid links into the input fields and press the "Upload" button.
+In order to upload documents, you need to insert valid links into the input fields and press the "Upload" button or press Enter.
 
 ### How to setup
 

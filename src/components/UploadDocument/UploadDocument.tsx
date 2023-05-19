@@ -18,6 +18,7 @@ export const UploadDocument = ({
 			e.type === "click" ||
 			(e.type === "keydown" && (e as KeyboardEvent).key === "Enter")
 		) {
+			e.preventDefault();
 			if (docsInputRef.current) {
 				const url = docsInputRef.current.value.trim();
 				if (url && url.startsWith(`${docsUrl}${dataType}/`)) {
