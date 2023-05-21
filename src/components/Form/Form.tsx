@@ -40,7 +40,8 @@ export const Form = () => {
 			docsData.sheetId
 		);
 		setIsLoading(false);
-		setResDocContent(resHtmlDoc);
+		const htmlBody = resHtmlDoc.replace(/<\/?(html|head|body)>/g, "");
+		setResDocContent(htmlBody);
 		setIsOpenPreviewDialog(true);
 	};
 

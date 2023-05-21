@@ -1,6 +1,5 @@
 {
   "name": "gdocs-parse",
-  "homepage": "https://mikitaab.github.io/gdocs-parse-react",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -15,18 +14,20 @@
   "dependencies": {
     "@vitejs/plugin-react": "^4.0.0",
     "bootstrap": "^5.2.3",
-    "dompurify": "^3.0.3",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
     "gh-pages": "^5.0.0",
+    "interweave": "^13.1.0",
     "jszip": "^3.10.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1",
     "sass": "^1.62.1",
     "vite": "^4.3.2",
-    "vite-plugin-eslint": "^1.8.1"
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-svgr": "^3.2.0"
   },
   "devDependencies": {
-    "@types/dompurify": "^3.0.2",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
@@ -35,7 +36,6 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
