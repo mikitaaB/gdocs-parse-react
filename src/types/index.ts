@@ -10,6 +10,7 @@ export type ButtonPropsType = {
 	isSubmit: boolean;
 	children: ReactNode;
 	isDisabled: boolean;
+	isLoading: boolean;
 	variant: string;
 	clickCallback?: () => void;
 };

@@ -46,7 +46,6 @@ export const UploadDocument = ({
 				<input
 					type="url"
 					className="form-control"
-					id="uploadInputDocFile"
 					onKeyDown={onUploadUrl}
 					name={inputName}
 					lang="en"

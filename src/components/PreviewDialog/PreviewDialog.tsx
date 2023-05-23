@@ -1,9 +1,13 @@
 import { memo, useEffect } from "react";
-import { Markup } from "interweave";
+import DOMPurify from "dompurify";
 import { PreviewDialogPropsType } from "../../types";
 
-export const PreviewDialog = memo((props: PreviewDialogPropsType) => {
+const PreviewDialog = memo((props: PreviewDialogPropsType) => {
 	const { isOpenPreviewDialog, handleCloseDialog, content } = props;
+	const sanitizedContent = DOMPurify.sanitize(content, {
+		FORCE_BODY: true,
+	});
+
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key === "Escape") {
@@ -50,7 +54,13 @@ export const PreviewDialog = memo((props: PreviewDialogPropsType) => {
 						className="modal-body"
 						style={{ whiteSpace: "pre-line" }}
 					>
-						{content && <Markup content={content} />}
+						{sanitizedContent.length > 0 && (
+							<div
+								dangerouslySetInnerHTML={{
+									__html: sanitizedContent,
+								}}
+							/>
+						)}
 					</div>
 					<div className="modal-footer">
 						<button
@@ -67,3 +77,5 @@ export const PreviewDialog = memo((props: PreviewDialogPropsType) => {
 		</div>
 	);
 });
+
+export default PreviewDialog;

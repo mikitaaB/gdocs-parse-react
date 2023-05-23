@@ -1,9 +1,11 @@
-import { FormEvent, useState } from "react";
-import { PreviewDialog } from "../PreviewDialog/PreviewDialog";
+import { FormEvent, useState, lazy, Suspense } from "react";
 import { Button } from "../Button/Button";
 import { UploadDocsSheets } from "../UploadDocsSheets/UploadDocsSheets";
 import { DocsType } from "../../types";
 import { getResDocumentData, saveHtmlAsDoc } from "../../utils/prepareFinalDoc";
+import { Loader } from "../Loader/Loader";
+
+const PreviewDialog = lazy(() => import("../PreviewDialog/PreviewDialog"));
 
 export const Form = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -29,7 +31,6 @@ export const Form = () => {
 			docsData.sheetId
 		);
 		setIsLoading(false);
-		setResDocContent(resHtmlDoc);
 		saveHtmlAsDoc(resHtmlDoc);
 	};
 
@@ -40,19 +41,18 @@ export const Form = () => {
 			docsData.sheetId
 		);
 		setIsLoading(false);
-		const htmlBody = resHtmlDoc.replace(/<\/?(html|head|body)>/g, "");
-		setResDocContent(htmlBody);
+		setResDocContent(resHtmlDoc);
 		setIsOpenPreviewDialog(true);
 	};
 
 	const handleCloseDialog = () => setIsOpenPreviewDialog(false);
 
 	const handleDocumentId = (id: string) => {
-		setDocsData({ ...docsData, docId: id });
+		setDocsData((prevState) => ({ ...prevState, docId: id }));
 	};
 
 	const handleSheetId = (id: string) => {
-		setDocsData({ ...docsData, sheetId: id });
+		setDocsData((prevState) => ({ ...prevState, sheetId: id }));
 	};
 
 	return (
@@ -69,29 +69,35 @@ export const Form = () => {
 					<div className="me-1">
 						<Button
 							variant="primary"
-							isDisabled={!isHasRequiredUrls || isLoading}
+							isDisabled={!isHasRequiredUrls}
+							isLoading={isLoading}
 							clickCallback={onShowPreviewFile}
 							isSubmit={false}
 						>
-							Preview
+							<div>Preview</div>
 						</Button>
 					</div>
 					<div className="me-1">
 						<Button
 							variant="success"
-							isDisabled={!isHasRequiredUrls || isLoading}
+							isDisabled={!isHasRequiredUrls}
+							isLoading={isLoading}
 							isSubmit
 						>
-							Download
+							<div>Download</div>
 						</Button>
 					</div>
 				</div>
 			</form>
-			<PreviewDialog
-				isOpenPreviewDialog={isOpenPreviewDialog}
-				handleCloseDialog={handleCloseDialog}
-				content={resDocContent}
-			/>
+			{isOpenPreviewDialog && (
+				<Suspense fallback={<Loader />}>
+					<PreviewDialog
+						isOpenPreviewDialog={isOpenPreviewDialog}
+						handleCloseDialog={handleCloseDialog}
+						content={resDocContent}
+					/>
+				</Suspense>
+			)}
 		</div>
 	);
 };
