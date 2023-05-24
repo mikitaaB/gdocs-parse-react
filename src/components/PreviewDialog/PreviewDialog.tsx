@@ -1,8 +1,8 @@
-import { memo, useEffect } from "react";
+import { useEffect } from "react";
 import DOMPurify from "dompurify";
 import { PreviewDialogPropsType } from "../../types";
 
-const PreviewDialog = memo((props: PreviewDialogPropsType) => {
+const PreviewDialog = (props: PreviewDialogPropsType) => {
 	const { isOpenPreviewDialog, handleCloseDialog, content } = props;
 	const sanitizedContent = DOMPurify.sanitize(content, {
 		FORCE_BODY: true,
@@ -76,6 +76,6 @@ const PreviewDialog = memo((props: PreviewDialogPropsType) => {
 			</div>
 		</div>
 	);
-});
+};
 
 export default PreviewDialog;

@@ -52,3 +52,12 @@ export type CoordVariable = {
 };
 
 export type VariableGroups = Record<string, CoordVariable>;
+
+export type FormPropsType = {
+	idDoc: string;
+	idSheet: string;
+	isLoading: boolean;
+	saveDoc: () => void;
+	handleOpenDialog: () => void;
+	setDocsData: React.Dispatch<React.SetStateAction<DocsType>>;
+};

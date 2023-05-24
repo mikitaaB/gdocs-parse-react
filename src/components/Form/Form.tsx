@@ -1,50 +1,37 @@
-import { FormEvent, useState, lazy, Suspense } from "react";
+import { FormEvent, memo } from "react";
 import { Button } from "../Button/Button";
 import { UploadDocsSheets } from "../UploadDocsSheets/UploadDocsSheets";
-import { DocsType } from "../../types";
-import { Loader } from "../Loader/Loader";
-import { useDocumentData } from "../../hooks/useDocumentData";
+import { DocsType, FormPropsType } from "../../types";
 
-const PreviewDialog = lazy(() => import("../PreviewDialog/PreviewDialog"));
+export const Form = memo(
+	({
+		idDoc,
+		idSheet,
+		isLoading,
+		saveDoc,
+		handleOpenDialog,
+		setDocsData,
+	}: FormPropsType) => {
+		const isHasRequiredUrls: boolean =
+			idDoc.length > 0 && idSheet.length > 0;
 
-export const Form = () => {
-	const [isOpenPreviewDialog, setIsOpenPreviewDialog] =
-		useState<boolean>(false);
-	const [docsData, setDocsData] = useState<DocsType>({
-		docId: "",
-		sheetId: "",
-	});
+		const handleDocumentId = (docId: string) => {
+			setDocsData((prevState: DocsType) => ({ ...prevState, docId }));
+		};
 
-	const { resDocContent, isLoading, saveDoc } = useDocumentData(
-		docsData.docId,
-		docsData.sheetId
-	);
+		const handleSheetId = (sheetId: string) => {
+			setDocsData((prevState: DocsType) => ({ ...prevState, sheetId }));
+		};
 
-	const isHasRequiredUrls: boolean =
-		docsData.docId.length > 0 && docsData.sheetId.length > 0;
+		const onHandleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
+			e.preventDefault();
+			if (!isHasRequiredUrls) {
+				return;
+			}
+			saveDoc();
+		};
 
-	const handleCloseDialog = () => setIsOpenPreviewDialog(false);
-
-	const handleDocumentId = (id: string) => {
-		setDocsData((prevState) => ({ ...prevState, docId: id }));
-	};
-
-	const handleSheetId = (id: string) => {
-		setDocsData((prevState) => ({ ...prevState, sheetId: id }));
-	};
-
-	const onShowPreviewFile = () => setIsOpenPreviewDialog(true);
-
-	const onHandleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		if (!isHasRequiredUrls) {
-			return;
-		}
-		saveDoc();
-	};
-
-	return (
-		<div>
+		return (
 			<form onSubmit={onHandleSubmitForm}>
 				<h3>Document</h3>
 
@@ -59,7 +46,7 @@ export const Form = () => {
 							variant="primary"
 							isDisabled={!isHasRequiredUrls}
 							isLoading={isLoading}
-							clickCallback={onShowPreviewFile}
+							clickCallback={handleOpenDialog}
 							isSubmit={false}
 						>
 							<div>Preview</div>
@@ -77,15 +64,6 @@ export const Form = () => {
 					</div>
 				</div>
 			</form>
-			{isOpenPreviewDialog && (
-				<Suspense fallback={<Loader />}>
-					<PreviewDialog
-						isOpenPreviewDialog={isOpenPreviewDialog}
-						handleCloseDialog={handleCloseDialog}
-						content={resDocContent}
-					/>
-				</Suspense>
-			)}
-		</div>
-	);
-};
+		);
+	}
+);
