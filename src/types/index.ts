@@ -31,9 +31,9 @@ export type DocumentType = "spreadsheets" | "document" | "presentation";
 export type ExportFormatType = "html" | "zip";
 
 export type UploadDocPropsType = {
+	id?: number;
 	title: string;
 	dataType: DocumentType;
-	exportFormatType: ExportFormatType;
 	handleSetDocId: (id: string) => void;
 };
 
@@ -47,8 +47,8 @@ export type SheetContentItem = {
 	content: string;
 };
 
-export interface ICoordVariable {
+export type CoordVariable = {
 	[key: string]: number[];
-}
+};
 
-export type VariableGroups = Record<string, ICoordVariable>;
+export type VariableGroups = Record<string, CoordVariable>;

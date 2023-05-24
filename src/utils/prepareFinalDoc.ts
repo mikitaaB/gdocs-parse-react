@@ -3,7 +3,7 @@ import {
 	fetchZipFromSheets,
 	getGoogleUrl,
 } from "./fetchDocument";
-import { ICoordVariable, SheetContentItem, VariableGroups } from "../types";
+import { CoordVariable, SheetContentItem, VariableGroups } from "../types";
 
 const getVariables = (docContent: string) => {
 	const sheetsRegex = /{([^a-zA-Z0-9]+)((-\d+){2}|(-\d+){4})}/g;
@@ -223,7 +223,7 @@ const getVariablesValue = (
 			"text/html"
 		);
 		const table = sheetOne.getElementsByTagName("table")[0];
-		const varsForList: ICoordVariable = variablesByList[sheetName];
+		const varsForList: CoordVariable = variablesByList[sheetName];
 
 		const valuesForList: { [key: string]: string } = {};
 		Object.entries(varsForList).forEach(([key, coordVariables]) => {

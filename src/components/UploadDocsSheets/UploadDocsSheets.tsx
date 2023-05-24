@@ -1,24 +1,35 @@
-import { UploadDocsSheetsPropsType } from "../../types";
+import { memo } from "react";
+import { UploadDocPropsType, UploadDocsSheetsPropsType } from "../../types";
 import { UploadDocument } from "../UploadDocument/UploadDocument";
 
-export const UploadDocsSheets = ({
-	handleDocumentId,
-	handleSheetId,
-}: UploadDocsSheetsPropsType) => {
-	return (
-		<>
-			<UploadDocument
-				title="Template"
-				dataType="document"
-				exportFormatType="html"
-				handleSetDocId={handleDocumentId}
-			/>
-			<UploadDocument
-				title="Data table"
-				dataType="spreadsheets"
-				exportFormatType="zip"
-				handleSetDocId={handleSheetId}
-			/>
-		</>
-	);
-};
+export const UploadDocsSheets = memo(
+	({ handleDocumentId, handleSheetId }: UploadDocsSheetsPropsType) => {
+		const uploadDocumentSets: UploadDocPropsType[] = [
+			{
+				id: 0,
+				title: "Template",
+				dataType: "document",
+				handleSetDocId: handleDocumentId,
+			},
+			{
+				id: 1,
+				title: "Data table",
+				dataType: "spreadsheets",
+				handleSetDocId: handleSheetId,
+			},
+		];
+
+		return (
+			<>
+				{uploadDocumentSets.map((el) => (
+					<UploadDocument
+						key={el.id}
+						title={el.title}
+						dataType={el.dataType}
+						handleSetDocId={el.handleSetDocId}
+					/>
+				))}
+			</>
+		);
+	}
+);

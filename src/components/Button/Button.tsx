@@ -12,7 +12,7 @@ export const Button = memo((props: ButtonPropsType) => {
 		clickCallback,
 	} = props;
 
-	const disabledBtn = isDisabled ? "disabled" : "";
+	const disabledBtn = isDisabled || isLoading ? "disabled" : "";
 
 	return (
 		<button
