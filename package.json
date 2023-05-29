@@ -14,10 +14,10 @@
   "dependencies": {
     "@vitejs/plugin-react": "^4.0.0",
     "bootstrap": "^5.2.3",
-    "dompurify": "^3.0.3",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "gh-pages": "^5.0.0",
+    "interweave": "^13.1.0",
     "jszip": "^3.10.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -27,7 +27,6 @@
     "vite-plugin-eslint": "^1.8.1"
   },
   "devDependencies": {
-    "@types/dompurify": "^3.0.2",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.57.1",

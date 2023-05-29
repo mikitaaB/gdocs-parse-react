@@ -37,7 +37,6 @@ function App() {
 			{isOpenPreviewDialog && (
 				<Suspense fallback={<Loader />}>
 					<PreviewDialog
-						isOpenPreviewDialog={isOpenPreviewDialog}
 						handleCloseDialog={handleCloseDialog}
 						content={resDocContent}
 					/>

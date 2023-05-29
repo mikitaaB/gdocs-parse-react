@@ -1,7 +1,7 @@
 import { FormEvent, memo } from "react";
 import { Button } from "../Button/Button";
 import { UploadDocsSheets } from "../UploadDocsSheets/UploadDocsSheets";
-import { DocsType, FormPropsType } from "../../types";
+import { FormPropsType } from "../../types";
 
 export const Form = memo(
 	({
@@ -16,11 +16,11 @@ export const Form = memo(
 			idDoc.length > 0 && idSheet.length > 0;
 
 		const handleDocumentId = (docId: string) => {
-			setDocsData((prevState: DocsType) => ({ ...prevState, docId }));
+			setDocsData((prevState) => ({ ...prevState, docId }));
 		};
 
 		const handleSheetId = (sheetId: string) => {
-			setDocsData((prevState: DocsType) => ({ ...prevState, sheetId }));
+			setDocsData((prevState) => ({ ...prevState, sheetId }));
 		};
 
 		const onHandleSubmitForm = (e: FormEvent<HTMLFormElement>) => {

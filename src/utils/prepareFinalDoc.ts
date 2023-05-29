@@ -3,6 +3,7 @@ import {
 	fetchZipFromSheets,
 	getGoogleUrl,
 } from "./fetchDocument";
+import { replaceVarsToValues } from "./replaceVariables";
 import { CoordVariable, SheetContentItem, VariableGroups } from "../types";
 
 const getVariables = (docContent: string) => {
@@ -268,15 +269,6 @@ const getVariablesValue = (
 	return variables;
 };
 
-const replaceVariables = (
-	docContent: string,
-	variables: {
-		[name: string]: string;
-	}
-) => {
-	return docContent.replace(/{[^}]+}/g, (match) => variables[match] || match);
-};
-
 export const getResDocumentData = async (docId: string, sheetId: string) => {
 	const {
 		parsedDocContent: docContent,
@@ -290,12 +282,9 @@ export const getResDocumentData = async (docId: string, sheetId: string) => {
 		sheetContent
 	);
 
-	const resHtmlDoc = replaceVariables(
-		docContent.documentElement.outerHTML,
-		variables
-	);
+	const resHtmlDoc = replaceVarsToValues(docContent, variables);
 
-	return resHtmlDoc;
+	return resHtmlDoc.documentElement.outerHTML;
 };
 
 export const saveHtmlAsDoc = (resHtmlDoc: string) => {

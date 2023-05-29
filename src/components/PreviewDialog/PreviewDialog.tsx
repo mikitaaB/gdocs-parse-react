@@ -1,12 +1,9 @@
 import { useEffect } from "react";
-import DOMPurify from "dompurify";
+import { Markup } from "interweave";
 import { PreviewDialogPropsType } from "../../types";
 
 const PreviewDialog = (props: PreviewDialogPropsType) => {
-	const { isOpenPreviewDialog, handleCloseDialog, content } = props;
-	const sanitizedContent = DOMPurify.sanitize(content, {
-		FORCE_BODY: true,
-	});
+	const { handleCloseDialog, content } = props;
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
@@ -22,14 +19,12 @@ const PreviewDialog = (props: PreviewDialogPropsType) => {
 
 	return (
 		<div
-			className={`modal modal-xl fade ${
-				isOpenPreviewDialog ? "show" : ""
-			}`}
-			style={{ display: isOpenPreviewDialog ? "block" : "none" }}
+			className="modal modal-xl fade show"
+			style={{ display: "block" }}
 			id="previewDialog"
 			aria-labelledby="previewDialogLabel"
 			role="dialog"
-			aria-hidden={!isOpenPreviewDialog}
+			aria-hidden={false}
 		>
 			<div className="modal-dialog" role="document">
 				<div className="modal-content">
@@ -54,13 +49,7 @@ const PreviewDialog = (props: PreviewDialogPropsType) => {
 						className="modal-body"
 						style={{ whiteSpace: "pre-line" }}
 					>
-						{sanitizedContent.length > 0 && (
-							<div
-								dangerouslySetInnerHTML={{
-									__html: sanitizedContent,
-								}}
-							/>
-						)}
+						{content.length > 0 && <Markup content={content} />}
 					</div>
 					<div className="modal-footer">
 						<button

@@ -8,7 +8,8 @@ export const useDocumentData = (docId: string, sheetId: string) => {
 	const fetchData = async (idDoc: string, idSheet: string) => {
 		setIsLoading(true);
 		const res = await getResDocumentData(idDoc, idSheet);
-		setResDocContent(res);
+		const htmlBody = res.replace(/<\/?(html|head|body)>/g, "");
+		setResDocContent(htmlBody);
 		setIsLoading(false);
 	};
 

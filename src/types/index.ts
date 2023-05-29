@@ -16,7 +16,6 @@ export type ButtonPropsType = {
 };
 
 export type PreviewDialogPropsType = {
-	isOpenPreviewDialog: boolean;
 	handleCloseDialog: () => void;
 	content: string;
 };
