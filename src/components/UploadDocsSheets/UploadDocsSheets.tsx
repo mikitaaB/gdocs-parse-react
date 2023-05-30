@@ -7,13 +7,13 @@ export const UploadDocsSheets = memo(
 		const uploadDocumentSets: UploadDocPropsType[] = [
 			{
 				id: 0,
-				title: "Template",
+				title: "Template (Google Docs)",
 				dataType: "document",
 				handleSetDocId: handleDocumentId,
 			},
 			{
 				id: 1,
-				title: "Data table",
+				title: "Data table (Google Sheets)",
 				dataType: "spreadsheets",
 				handleSetDocId: handleSheetId,
 			},
