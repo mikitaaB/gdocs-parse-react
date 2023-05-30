@@ -5,16 +5,12 @@ import { FormPropsType } from "../../types";
 
 export const Form = memo(
 	({
-		idDoc,
-		idSheet,
+		isHasRequiredUrls,
 		isLoading,
-		saveDoc,
-		handleOpenDialog,
+		handlePressPreview,
+		handlePressDownload,
 		setDocsData,
 	}: FormPropsType) => {
-		const isHasRequiredUrls: boolean =
-			idDoc.length > 0 && idSheet.length > 0;
-
 		const handleDocumentId = (docId: string) => {
 			setDocsData((prevState) => ({ ...prevState, docId }));
 		};
@@ -23,12 +19,12 @@ export const Form = memo(
 			setDocsData((prevState) => ({ ...prevState, sheetId }));
 		};
 
-		const onHandleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
+		const onHandleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
 			if (!isHasRequiredUrls) {
 				return;
 			}
-			saveDoc();
+			handlePressDownload();
 		};
 
 		return (
@@ -46,10 +42,10 @@ export const Form = memo(
 							variant="primary"
 							isDisabled={!isHasRequiredUrls}
 							isLoading={isLoading}
-							clickCallback={handleOpenDialog}
+							clickCallback={handlePressPreview}
 							isSubmit={false}
 						>
-							<div>Preview</div>
+							Preview
 						</Button>
 					</div>
 					<div className="me-1">
@@ -59,7 +55,7 @@ export const Form = memo(
 							isLoading={isLoading}
 							isSubmit
 						>
-							<div>Download</div>
+							Download
 						</Button>
 					</div>
 				</div>

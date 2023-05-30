@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getResDocumentData, saveHtmlAsDoc } from "../utils/prepareFinalDoc";
 
-export const useDocumentData = (docId: string, sheetId: string) => {
+export const useDocumentData = () => {
 	const [resDocContent, setResDocContent] = useState<string>("");
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -19,11 +19,5 @@ export const useDocumentData = (docId: string, sheetId: string) => {
 		setIsLoading(false);
 	};
 
-	useEffect(() => {
-		if (docId.length > 0 && sheetId.length > 0) {
-			fetchData(docId, sheetId);
-		}
-	}, [docId, sheetId]);
-
-	return { resDocContent, isLoading, saveDoc };
+	return { resDocContent, isLoading, fetchData, saveDoc };
 };

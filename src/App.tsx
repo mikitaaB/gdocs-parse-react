@@ -13,25 +13,32 @@ function App() {
 		docId: "",
 		sheetId: "",
 	});
-	const { resDocContent, isLoading, saveDoc } = useDocumentData(
-		docsData.docId,
-		docsData.sheetId
-	);
+	const { resDocContent, isLoading, fetchData, saveDoc } = useDocumentData();
 	const [isOpenPreviewDialog, setIsOpenPreviewDialog] =
 		useState<boolean>(false);
 
-	const handleOpenDialog = () => setIsOpenPreviewDialog(true);
+	const handlePressPreview = async () => {
+		await fetchData(docsData.docId, docsData.sheetId);
+		setIsOpenPreviewDialog(true);
+	};
+
+	const handlePressDownload = async () => {
+		await fetchData(docsData.docId, docsData.sheetId);
+		saveDoc();
+	};
+
+	const isHasRequiredUrls: boolean =
+		docsData.docId.length > 0 && docsData.sheetId.length > 0;
 
 	const handleCloseDialog = () => setIsOpenPreviewDialog(false);
 
 	return (
 		<>
 			<Form
-				idDoc={docsData.docId}
-				idSheet={docsData.sheetId}
+				isHasRequiredUrls={isHasRequiredUrls}
 				isLoading={isLoading}
-				saveDoc={saveDoc}
-				handleOpenDialog={handleOpenDialog}
+				handlePressPreview={handlePressPreview}
+				handlePressDownload={handlePressDownload}
 				setDocsData={setDocsData}
 			/>
 			{isOpenPreviewDialog && (
