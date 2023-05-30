@@ -26,7 +26,10 @@ const PreviewDialog = (props: PreviewDialogPropsType) => {
 			role="dialog"
 			aria-hidden={false}
 		>
-			<div className="modal-dialog" role="document">
+			<div
+				className="modal-dialog modal-dialog-scrollable"
+				role="document"
+			>
 				<div className="modal-content">
 					<div className="modal-header">
 						<h1

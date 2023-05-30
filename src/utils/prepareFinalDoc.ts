@@ -1,3 +1,4 @@
+import { asBlob } from "html-docx-js-typescript";
 import {
 	fetchHtmlFromDocs,
 	fetchZipFromSheets,
@@ -287,14 +288,18 @@ export const getResDocumentData = async (docId: string, sheetId: string) => {
 	return resHtmlDoc.documentElement.outerHTML;
 };
 
-export const saveHtmlAsDoc = (resHtmlDoc: string) => {
-	const source = `data:application/vnd.ms-word;charset=utf-8,${encodeURIComponent(
-		resHtmlDoc
-	)}`;
-	const fileDownload = document.createElement("a");
-	document.body.appendChild(fileDownload);
-	fileDownload.href = source;
-	fileDownload.download = "converted-document.doc";
-	fileDownload.click();
-	document.body.removeChild(fileDownload);
+export const saveHtmlAsDoc = async (htmlContent: string) => {
+	asBlob(htmlContent)
+		.then((data: Blob) => {
+			const fileDownload = document.createElement("a");
+			document.body.appendChild(fileDownload);
+			fileDownload.href = URL.createObjectURL(data);
+			fileDownload.download = "converted-document.docx";
+			fileDownload.click();
+			document.body.removeChild(fileDownload);
+		})
+		.catch((error: Error) => {
+			console.error(error);
+			throw error;
+		});
 };

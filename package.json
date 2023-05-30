@@ -17,6 +17,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "gh-pages": "^5.0.0",
+    "html-docx-js-typescript": "^0.1.5",
     "interweave": "^13.1.0",
     "jszip": "^3.10.1",
     "react": "^18.2.0",
