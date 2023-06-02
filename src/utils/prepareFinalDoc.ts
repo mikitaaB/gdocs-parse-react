@@ -1,9 +1,5 @@
 import { asBlob } from "html-docx-js-typescript";
-import {
-	fetchHtmlFromDocs,
-	fetchZipFromSheets,
-	getGoogleUrl,
-} from "./fetchDocument";
+import JSZip from "jszip";
 import { replaceVarsToValues } from "./replaceVariables";
 import { CoordVariable, SheetContentItem, VariableGroups } from "../types";
 
@@ -33,62 +29,51 @@ const parseStringToHtml = (docContent: string) => {
 };
 
 const extractDocumentData = async (
-	docId: string
+	documentData: string
 ): Promise<{
 	parsedDocContent: Document;
 	rawVariables: [] | RegExpMatchArray;
 	uniqueLists: Set<string>;
 }> => {
-	try {
-		const url = getGoogleUrl("document", docId, "html");
-		const docContent = await fetchHtmlFromDocs(url);
-		const parsedDocContent = parseStringToHtml(docContent);
-		const rawVariables = getVariables(
-			parsedDocContent.body.textContent as string
-		);
-		const uniqueLists = getUniqueLists(rawVariables);
-		return { parsedDocContent, rawVariables, uniqueLists };
-	} catch (error) {
-		throw new Error(`An error occurs while parsing doc ${docId}`);
-	}
+	const parsedDocContent = parseStringToHtml(documentData);
+	const rawVariables = getVariables(
+		parsedDocContent.body.textContent as string
+	);
+	const uniqueLists = getUniqueLists(rawVariables);
+	return { parsedDocContent, rawVariables, uniqueLists };
 };
 
 const extractSheetData = async (
-	sheetId: string,
+	sheetData: string,
 	lists: Set<string>
 ): Promise<Record<string, string>> => {
-	try {
-		const url = getGoogleUrl("spreadsheets", sheetId, "zip");
-		const zip = await fetchZipFromSheets(url);
-		const { files } = zip;
-		const extHtml = ".html";
-		const filteredFiles = Object.keys(files).filter((fileName) =>
-			lists.has(
-				fileName.endsWith(extHtml)
-					? fileName.slice(0, -extHtml.length)
-					: fileName
-			)
-		);
-		const sheetContent = await Promise.all(
-			filteredFiles.map(async (fileName) => {
-				const file = files[fileName];
-				const content = await file.async("string");
-				return { fileName, content };
-			})
-		);
-		const sheetObject = sheetContent.reduce(
-			(obj: Record<string, string>, item: SheetContentItem) => {
-				return {
-					...obj,
-					[item.fileName.slice(0, -extHtml.length)]: item.content,
-				};
-			},
-			{}
-		);
-		return sheetObject;
-	} catch (error) {
-		throw new Error(`An error occurs while parsing sheet ${sheetId}`);
-	}
+	const zipFile = await JSZip.loadAsync(sheetData);
+	const { files } = zipFile;
+	const extHtml = ".html";
+	const filteredFiles = Object.keys(files).filter((fileName) =>
+		lists.has(
+			fileName.endsWith(extHtml)
+				? fileName.slice(0, -extHtml.length)
+				: fileName
+		)
+	);
+	const sheetContent = await Promise.all(
+		filteredFiles.map(async (fileName) => {
+			const file = files[fileName];
+			const content = await file.async("string");
+			return { fileName, content };
+		})
+	);
+	const sheetObject = sheetContent.reduce(
+		(obj: Record<string, string>, item: SheetContentItem) => {
+			return {
+				...obj,
+				[item.fileName.slice(0, -extHtml.length)]: item.content,
+			};
+		},
+		{}
+	);
+	return sheetObject;
 };
 
 const parseVariablesByList = (variables: string[]): VariableGroups => {
@@ -270,13 +255,16 @@ const getVariablesValue = (
 	return variables;
 };
 
-export const getResDocumentData = async (docId: string, sheetId: string) => {
+export const getResDocumentData = async (
+	documentData: string,
+	sheetData: string
+) => {
 	const {
 		parsedDocContent: docContent,
 		rawVariables,
 		uniqueLists,
-	} = await extractDocumentData(docId);
-	const sheetContent = await extractSheetData(sheetId, uniqueLists);
+	} = await extractDocumentData(documentData);
+	const sheetContent = await extractSheetData(sheetData, uniqueLists);
 	const variables = getVariablesValue(
 		uniqueLists,
 		rawVariables,

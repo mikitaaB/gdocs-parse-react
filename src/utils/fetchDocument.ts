@@ -2,7 +2,7 @@ import JSZip from "jszip";
 import { DocumentType, ExportFormatType } from "../types";
 import { docsUrl } from "../constants";
 
-export const getGoogleUrl = (
+const getGoogleUrl = (
 	docType: DocumentType,
 	id: string,
 	exportFormatType: ExportFormatType
@@ -13,15 +13,9 @@ export const getGoogleUrl = (
 	throw new Error("Unknown document type");
 };
 
-export const fetchHtmlFromDocs = async (url: string) => {
-	fetch(url)
-		.then((response: Response) => response.text())
-		.then((html: string) => html)
-		.catch((error: Error) => {
-			console.error(error);
-			throw error;
-		});
+export const fetchHtmlFromDocs = async (docId: string) => {
 	try {
+		const url = getGoogleUrl("document", docId, "html");
 		const response = await fetch(url);
 		const html = await response.text();
 		return html as string;
@@ -31,8 +25,9 @@ export const fetchHtmlFromDocs = async (url: string) => {
 	}
 };
 
-export const fetchZipFromSheets = async (url: string) => {
+export const fetchZipFromSheets = async (sheetId: string) => {
 	try {
+		const url = getGoogleUrl("spreadsheets", sheetId, "zip");
 		const response = await fetch(url);
 		const zipFile = await response.blob();
 		const zip = await JSZip.loadAsync(zipFile);

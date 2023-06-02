@@ -7,17 +7,15 @@ export type VariableType = {
 };
 
 export type ButtonPropsType = {
-	isSubmit: boolean;
 	children: ReactNode;
 	isDisabled: boolean;
 	isLoading: boolean;
 	variant: string;
-	clickCallback?: () => void;
+	clickCallback: () => void;
 };
 
 export type PreviewDialogPropsType = {
 	handleCloseDialog: () => void;
-	content: string;
 };
 
 export type DocsType = {
@@ -36,11 +34,6 @@ export type UploadDocPropsType = {
 	handleSetDocId: (id: string) => void;
 };
 
-export type UploadDocsSheetsPropsType = {
-	handleDocumentId: (id: string) => void;
-	handleSheetId: (id: string) => void;
-};
-
 export type SheetContentItem = {
 	fileName: string;
 	content: string;
@@ -52,10 +45,14 @@ export type CoordVariable = {
 
 export type VariableGroups = Record<string, CoordVariable>;
 
-export type FormPropsType = {
-	isHasRequiredUrls: boolean;
+export type FormPanelPropsType = {
+	handleDisplayDialog: () => void;
+};
+
+export type DocSliceInitialStateType = {
+	documentData: string | null;
+	sheetData: string | null;
+	resultDocData: string | null;
 	isLoading: boolean;
-	handlePressPreview: () => void;
-	handlePressDownload: () => void;
-	setDocsData: React.Dispatch<React.SetStateAction<DocsType>>;
+	error: string | null;
 };

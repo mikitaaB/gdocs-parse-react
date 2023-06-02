@@ -3,14 +3,7 @@ import { ButtonPropsType } from "../../types";
 import s from "./button.module.css";
 
 export const Button = memo((props: ButtonPropsType) => {
-	const {
-		isSubmit,
-		children,
-		isDisabled,
-		isLoading,
-		variant,
-		clickCallback,
-	} = props;
+	const { children, isDisabled, isLoading, variant, clickCallback } = props;
 
 	const disabledBtn = isDisabled || isLoading ? "disabled" : "";
 
@@ -18,7 +11,7 @@ export const Button = memo((props: ButtonPropsType) => {
 		<button
 			className={`btn d-md-flex btn-${variant} ${disabledBtn} ${s.buttonStyle}`}
 			onClick={clickCallback}
-			type={isSubmit ? "submit" : "button"}
+			type="button"
 		>
 			{isLoading ? (
 				<div>

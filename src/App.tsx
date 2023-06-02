@@ -1,52 +1,27 @@
-import { useState, lazy, Suspense } from "react";
+import { useState, lazy, Suspense, useCallback } from "react";
 import { Form } from "./components/Form/Form";
 import { Loader } from "./components/Loader/Loader";
-import { DocsType } from "./types";
-import { useDocumentData } from "./hooks/useDocumentData";
 
 const PreviewDialog = lazy(
 	() => import("./components/PreviewDialog/PreviewDialog")
 );
 
 function App() {
-	const [docsData, setDocsData] = useState<DocsType>({
-		docId: "",
-		sheetId: "",
-	});
-	const { resDocContent, isLoading, fetchData, saveDoc } = useDocumentData();
 	const [isOpenPreviewDialog, setIsOpenPreviewDialog] =
 		useState<boolean>(false);
 
-	const handlePressPreview = async () => {
-		await fetchData(docsData.docId, docsData.sheetId);
-		setIsOpenPreviewDialog(true);
-	};
-
-	const handlePressDownload = async () => {
-		await fetchData(docsData.docId, docsData.sheetId);
-		saveDoc();
-	};
-
-	const isHasRequiredUrls: boolean =
-		docsData.docId.length > 0 && docsData.sheetId.length > 0;
-
-	const handleCloseDialog = () => setIsOpenPreviewDialog(false);
+	const handleDisplayDialog = useCallback(
+		() => setIsOpenPreviewDialog((prevState) => !prevState),
+		[]
+	);
 
 	return (
 		<>
-			<Form
-				isHasRequiredUrls={isHasRequiredUrls}
-				isLoading={isLoading}
-				handlePressPreview={handlePressPreview}
-				handlePressDownload={handlePressDownload}
-				setDocsData={setDocsData}
-			/>
+			<h3>Document</h3>
+			<Form handleDisplayDialog={handleDisplayDialog} />
 			{isOpenPreviewDialog && (
 				<Suspense fallback={<Loader />}>
-					<PreviewDialog
-						handleCloseDialog={handleCloseDialog}
-						content={resDocContent}
-					/>
+					<PreviewDialog handleCloseDialog={handleDisplayDialog} />
 				</Suspense>
 			)}
 		</>

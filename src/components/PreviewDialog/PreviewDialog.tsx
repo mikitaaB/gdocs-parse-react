@@ -1,9 +1,11 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Markup } from "interweave";
 import { PreviewDialogPropsType } from "../../types";
+import { selectDocumentData } from "../../state/selectors/docSelector";
 
-const PreviewDialog = (props: PreviewDialogPropsType) => {
-	const { handleCloseDialog, content } = props;
+const PreviewDialog = ({ handleCloseDialog }: PreviewDialogPropsType) => {
+	const { resultDocData: content } = useSelector(selectDocumentData);
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
@@ -40,7 +42,7 @@ const PreviewDialog = (props: PreviewDialogPropsType) => {
 						</h1>
 						<button
 							type="button"
-							className="close"
+							className="btn btn-danger close"
 							data-bs-dismiss="modal"
 							aria-label="Close"
 							onClick={handleCloseDialog}
@@ -52,12 +54,14 @@ const PreviewDialog = (props: PreviewDialogPropsType) => {
 						className="modal-body"
 						style={{ whiteSpace: "pre-line" }}
 					>
-						{content.length > 0 && <Markup content={content} />}
+						{content && content.length > 0 && (
+							<Markup content={content} />
+						)}
 					</div>
 					<div className="modal-footer">
 						<button
 							type="button"
-							className="btn btn-secondary"
+							className="btn btn-outline-secondary"
 							data-bs-dismiss="modal"
 							onClick={handleCloseDialog}
 						>
