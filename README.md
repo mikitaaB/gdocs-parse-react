@@ -3,6 +3,12 @@
 The application finds variables in a pre-prepared document - Google Docs, finds the values of these variables in a table - Google Sheets and uploads the completed document to Word.
 In order to upload documents, you need to insert valid links into the input fields and press the "Upload" button or press Enter.
 
+#### Variable Description:
+
+The single variable {sheet-column-row} - points to a cell in Google Sheets.
+
+The range of variable {sheet-column1-row1-column2-row2} indicates a range of variables, where column1-row1 is the start cell of the range, column2-row2 is the end cell of the range.
+
 ### How to setup
 
 1. Install node.js: https://nodejs.org/en/ (LTS)
