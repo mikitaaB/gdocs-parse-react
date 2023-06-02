@@ -5,9 +5,9 @@ In order to upload documents, you need to insert valid links into the input fiel
 
 #### Variable Description:
 
-The single variable {sheet-column-row} - points to a cell in Google Sheets.
+The single variable `{sheet-column-row}` - points to a cell in Google Sheets.
 
-The range of variable {sheet-column1-row1-column2-row2} indicates a range of variables, where column1-row1 is the start cell of the range, column2-row2 is the end cell of the range.
+The range of variable `{sheet-column1-row1-column2-row2}` indicates a range of variables, where column1-row1 is the start cell of the range, column2-row2 is the end cell of the range.
 
 ### How to setup
 
